@@ -2,14 +2,14 @@
 
 # Install
 
-```script
+```javascript
 npm install meta-console
 
 ```
 
 # Usage
 
-```script
+```javascript
 import Console from 'meta-console';
 
 new Console();
