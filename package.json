@@ -1,0 +1,27 @@
+{
+  "name": "meta-console",
+  "version": "0.0.0-a20",
+  "description": "MetaJS Console",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src --out-dir lib --copy-files",
+    "prepare": "npm run build"
+  },
+  "author": "Florian Maxim",
+  "license": "MIT",
+  "dependencies": {
+    "codemirror": "^5.29.0",
+    "meta-client": "0.0.0-a91"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "codemirror": "^5.29.0",
+    "meta-client": "0.0.0-a91"
+  }
+}

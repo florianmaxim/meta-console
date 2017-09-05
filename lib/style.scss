@@ -1,0 +1,163 @@
+@import url(https://fonts.googleapis.com/css?family=Mr+Dafoe);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+$primary: rgba(139,147,162,1);
+$secondary: rgba(27,32,35,1);
+
+a{
+  text-decoration: none;
+}
+
+.console-container{
+  z-index: 1;
+
+  position: fixed;
+  left:0;
+  bottom:0;
+
+  width:100vw;
+
+  display:flex;
+  flex-direction:column;
+
+  opacity:.85;
+}
+
+*{
+ margin: 0;
+ padding: 0;
+}
+
+.console-overlay {
+  position: absolute;
+  width:100vw;
+  height:100%;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: black;
+  opacity: 0.85;
+}
+
+.console-button-container{
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  flex-direction: row;
+}
+
+.console-button{
+  width: 100%;
+  height: 7.5vh;
+  font-size: 2.5vh;
+  color: $primary;
+  background-color: $secondary;
+  font-family: Consolas, Monaco, monospace;
+  margin: 0;
+  padding: 0;
+  border: none;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+  // background: linear-gradient(rgba(255,255,255,.1), rgba(23,26,31,.1));
+  // text-shadow: 1px 1px 1px rgba(255,255,255,.2);
+  text-shadow: 1px 1px 1px rgba(0,0,0,.2);
+}
+
+.console-button:hover{
+  color:rgba(139,147,162,1);
+  background-color:rgba(23,26,31,1);
+}
+
+.console-button-notification{
+  background-color: red;
+  border: 0px solid;
+  border-radius: 12px;
+  padding: 4px;
+  padding-top: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  position: absolute;
+  margin-top: -26px;
+  margin-left: -45px;
+  color: white;
+  font-family: Consolas, Monaco, monospace;
+  font-size: 10px;
+  line-height: 14px;
+  box-shadow: 1px 0px 4px rgba(0,0,0,.5);
+  text-shadow: 1px 1px 1px rgba(0,0,0,.5);
+}
+
+.console-button-compile:active{
+  background-color: red;
+  color: black;
+}
+
+#console-button-example{
+  color: rgb(218,179,123);
+  font-weight: 600;
+}
+
+.console-resize{
+ z-index: 50;
+ position: absolute;
+ transition: 1s all;
+ margin: 1.5vh;
+ right:0vh;
+ top:0vh;
+
+ border-style: solid;
+ border-width: 0 1.5vh 3vh 1.5vh;
+ border-color: transparent transparent $primary transparent;
+ cursor: n-resize;
+}
+
+.console-logo{
+  z-index: 2;
+  position: fixed;
+  left: 35px;
+  top: 12.5px;
+
+  font-family: Mr Dafoe;
+  font-size: 7.5vh;
+  color: red;
+
+  transform: translate3d(0,0,0);
+
+  transition: .5s all;
+}
+
+.console-line{
+  transition: 2s all;
+  z-index: 0;
+  position: fixed;
+  left: 50%;;
+  top: 50%;
+
+  width: 75vw;
+
+  font-family: Consolas, Monaco, monospace;
+  font-family: Open Sans;
+
+  user-select: none;
+
+  font-size: 7.5vh;
+  color: white;
+
+  text-align: center;
+
+  transform: translate3d(-50%,-75%,0);
+
+  transition: .5s all;
+}
+
+
+@media (orientation: portrait){
+  .console-logo{
+    left: 50%;
+    transform: translate3d(-50%,0,0);
+    font-size: 15vh;
+  }
+}
