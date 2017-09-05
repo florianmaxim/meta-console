@@ -2,7 +2,7 @@
 
 # Install
 
-```javascript
+```script
 npm install meta-console
 
 ```
