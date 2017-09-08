@@ -2,19 +2,54 @@ import './style.scss';
 import './codemirror.css';
 import './codemirror.theme.monokai.css';
 
-import {Space, Ground, Matter, Graphics, Sphere, Cube, Cylinder, Plane, Model, C, O, Y, P, S} from 'meta-client';
+import {Space}        from 'meta-client';
 
-import {i, e} from 'meta-client';
+import {Matter}       from 'meta-client';
 
+import {Ground, Grid} from 'meta-client';
+
+import {Graphics}     from 'meta-client';
+
+import {Sphere,
+        Cube,
+        Cylinder,
+        Plane,
+        Model}     from 'meta-client';
+
+/*
+  Helpers
+*/
+
+import {r, i, e} from 'meta-client';
+
+window.r = r;
 window.i = i;
 window.e = e;
 
+/*
+  Space
+*/
+
 window.Space    = Space;
 
-window.Ground   = Ground;
+/*
+  Matter
+*/
 
 window.Matter   = Matter;
-window.Graphics = Matter;
+
+// Custom
+window.Ground   = Ground;
+window.Grid     = Grid;
+
+/*
+  Graphics
+*/
+window.Graphics = Graphics;
+
+/*
+  Geometries
+*/
 
 window.Sphere   = Sphere;
 window.Cube     = Cube;
@@ -23,15 +58,15 @@ window.Plane    = Plane;
 
 window.Model    = Model;
 
-window.Cube = (w,h,l)         => {return new Cube(w,h,l)};
-window.Sphere = (r)           => {return new Sphere(r)};
-window.Cylinder = (r1, r2, h) => {return new Cylinder(r1, r2, h)};
-window.Plane = (w, l)         => {return new Plane(w, l)};
-
-window.C = (w,h,l)     => {return new C(w,h,l)};
-window.S = (r)         => {return new S(r)};
-window.Y = (r1, r2, h) => {return new C(r1, r2, h)};
-window.P = (w, l)      => {return new P(w, l)};
+// window.Cube = (w,h,l)         => {return new Cube(w,h,l)};
+// window.Sphere = (r)           => {return new Sphere(r)};
+// window.Cylinder = (r1, r2, h) => {return new Cylinder(r1, r2, h)};
+// window.Plane = (w, l)         => {return new Plane(w, l)};
+//
+// window.C = (w,h,l)     => {return new C(w,h,l)};
+// window.S = (r)         => {return new S(r)};
+// window.Y = (r1, r2, h) => {return new C(r1, r2, h)};
+// window.P = (w, l)      => {return new P(w, l)};
 
 const SAY = [
   "Will you try a spoonful of this and tell me what you think of it?",
@@ -55,6 +90,7 @@ const TRY = [
 ]
 
 const EXAMPLES = [
+
   "C()",
   "C(2.5)",
   "new Cube(2.5)",
@@ -79,7 +115,10 @@ const EXAMPLES = [
 
   "C(10).m('d',7.5).p('f');\nC(2).p();",
   "C(10).m('d',7.5).p('f');\nC(2).m('l',5).p();",
-  "C(10).m('d',7.5).p('f');\nC(2).m('l',5).p();\nC(2).m('r',2).p()"
+  "C(10).m('d',7.5).p('f');\nC(2).m('l',5).p();\nC(2).m('r',2).p()",
+
+  "new Ground()\nnew Grid()\nnew Cube()",
+
 ]
 
 const _DEFAULT = {
@@ -106,7 +145,7 @@ export default class Console {
 
       let link = document.createElement("a");
           link.className = 'console-logo';
-          link.href = 'https://github.com/cheesyeyes/meta';
+          link.href = 'https://metajs.org';
           link.target = '_blank';
           link.innerHTML = _DEFAULT.LOGO;
 
@@ -173,10 +212,31 @@ export default class Console {
           buttonCompile.innerHTML = 'Compile';
 
     if(_default){
+
       const buttonExampleN  = document.createElement("button");
             buttonExampleN.className = 'console-button-notification';
             buttonExample.appendChild(buttonExampleN);
             buttonExampleN.innerHTML = TRY[Math.floor(Math.random()*TRY.length)];
+
+
+      const i = document.createElement('img');
+            i.src = "https://cdn.rawgit.com/gilbarbara/logos/00cf8501/logos/github-octocat.svg";
+            i.style.width = '50px';
+            i.style.height = '50px';
+            i.style.zIndex = '1';
+
+      const a = document.createElement('a');
+            a.href =  'https://github.com/cheesyeyes/meta';
+            a.target = '_blank';
+
+            a.style.position = 'fixed';
+            a.style.top   = '25px';
+            a.style.right = '25px';
+            a.style.zIndex = '1';
+
+            a.appendChild(i);
+
+        document.body.appendChild(a);
     }
 
     function resize(){
@@ -208,11 +268,11 @@ export default class Console {
     }
 
     function clear(){
-      Space.clear();
 
       myCodeMirror.setValue('');
       myCodeMirror.focus();
       code = '';
+
     }
 
     function compile(){
@@ -225,12 +285,14 @@ export default class Console {
 
     }
 
+    addEventListener('load', () => compile())
 
     buttonCompile.addEventListener('click', (event) => {
 
       event.preventDefault();
 
       compile();
+
     });
 
     buttonExample.addEventListener('click', (event) => {
