@@ -1,6 +1,6 @@
 {
   "name": "meta-console",
-  "version": "0.0.0-a54",
+  "version": "0.0.0-a76",
   "description": "MetaJS Console",
   "main": "lib/index.js",
   "directories": {
@@ -15,7 +15,8 @@
   "license": "MIT",
   "dependencies": {
     "codemirror": "^5.29.0",
-    "meta-client": "0.0.0-b16"
+    "meta-client": "0.0.0-b22",
+    "paper": "^0.11.4"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

@@ -4,12 +4,17 @@
 $primary: rgba(139,147,162,1);
 $secondary: rgba(27,32,35,1);
 
+*{
+ margin: 0;
+ padding: 0;
+}
+
 a{
   text-decoration: none;
 }
 
 .console-container{
-  z-index: 1;
+  z-index: 10;
 
   position: fixed;
   left:0;
@@ -21,11 +26,6 @@ a{
   flex-direction:column;
 
   opacity:.85;
-}
-
-*{
- margin: 0;
- padding: 0;
 }
 
 .console-overlay {
@@ -40,6 +40,55 @@ a{
   opacity: 0.85;
 }
 
+.console-logo{
+  z-index: 1;
+  position: fixed;
+  left: 35px;
+  top: 12.5px;
+
+  font-family: Mr Dafoe;
+  font-size: 7.5vh;
+  color: red;
+
+  transform: translate3d(0,0,0);
+
+  transition: .5s all;
+}
+
+.console-input{
+  transition: 1s all;
+  width: 100vw;
+  border: 1px solid #eee;
+  filter:blur(15px);
+}
+
+.console-console{
+  transition: 1s all;
+  height: 16vh;
+  background-color: rgba(0,0,0,.5);
+  z-index: 2;
+}
+
+/*
+  Logo Github
+*/
+
+.console-logo-github{
+  position: fixed;
+  top: 25px;
+  right: 25px;
+  z-index: 1;
+}
+
+.console-logo-github-img{
+  width: 50px;
+  height: 50px;
+  z-index: 1;
+}
+
+/*
+ Buttons
+*/
 .console-button-container{
   margin: 0;
   padding: 0;
@@ -61,8 +110,6 @@ a{
   text-decoration: none;
   outline: none;
   cursor: pointer;
-  // background: linear-gradient(rgba(255,255,255,.1), rgba(23,26,31,.1));
-  // text-shadow: 1px 1px 1px rgba(255,255,255,.2);
   text-shadow: 1px 1px 1px rgba(0,0,0,.2);
 }
 
@@ -88,6 +135,7 @@ a{
   line-height: 14px;
   box-shadow: 1px 0px 4px rgba(0,0,0,.5);
   text-shadow: 1px 1px 1px rgba(0,0,0,.5);
+  z-index: 3;
 }
 
 .console-button-compile:active{
@@ -114,45 +162,15 @@ a{
  cursor: n-resize;
 }
 
-.console-logo{
-  z-index: 10;
+.console-circle{
+  width: 30px;
+  height: 30px;
   position: fixed;
-  left: 35px;
+  right: 12.5px;
   top: 12.5px;
-
-  font-family: Mr Dafoe;
-  font-size: 7.5vh;
-  color: red;
-
-  transform: translate3d(0,0,0);
-
-  transition: .5s all;
+  cursor: pointer;
+  z-index: 1;
 }
-
-.console-line{
-  transition: 2s all;
-  z-index: 0;
-  position: fixed;
-  left: 50%;;
-  top: 50%;
-
-  width: 75vw;
-
-  font-family: Consolas, Monaco, monospace;
-  font-family: Open Sans;
-
-  user-select: none;
-
-  font-size: 7.5vh;
-  color: white;
-
-  text-align: center;
-
-  transform: translate3d(-50%,-75%,0);
-
-  transition: .5s all;
-}
-
 
 @media (orientation: portrait){
   .console-logo{

@@ -1,14 +1,23 @@
+import paper from 'paper';
+
+import CodeMirror from 'codemirror';
+import 'codemirror/lib/codemirror.css';
+require('codemirror/mode/javascript/javascript');
+
 import './style.scss';
 import './codemirror.css';
 import './codemirror.theme.monokai.css';
+
 
 import {Space}        from 'meta-client';
 
 import {Matter}       from 'meta-client';
 
+import {Graphics,
+        Existence}    from 'meta-client';
+
 import {Ground, Grid} from 'meta-client';
 
-import {Graphics}     from 'meta-client';
 
 import {Sphere,
         Cube,
@@ -46,6 +55,7 @@ window.Grid     = Grid;
   Graphics
 */
 window.Graphics = Graphics;
+window.Existence = Existence;
 
 /*
   Geometries
@@ -140,18 +150,6 @@ export default class Console {
     let example = -1;
     let code    = EXAMPLES[EXAMPLES.length-1];
 
-    if(_default){
-      document.body.style.backgroundColor = '#111111';
-
-      let link = document.createElement("a");
-          link.className = 'console-logo';
-          link.href = 'https://metajs.org';
-          link.target = '_blank';
-          link.innerHTML = _DEFAULT.LOGO;
-
-      document.body.appendChild(link);
-    }
-
     const container = document.createElement("div");
           container.className = 'console-container';
 
@@ -163,20 +161,10 @@ export default class Console {
     container.appendChild(close);
 
     const input = document.createElement("textarea");
-          input.style.transition = '1s all';
-          input.style.width = '100vw';
-          input.style.border = '1px solid #eee';
-          input.style.filter = "blur(15px)";
-
           input.id = 'console';
           input.value = code;
 
     container.appendChild(input);
-
-    require('codemirror/mode/javascript/javascript');
-    require('codemirror/lib/codemirror.css');
-
-    var CodeMirror = require('codemirror/lib/codemirror');
 
     var myCodeMirror = CodeMirror.fromTextArea(input, {
       mode:  "javascript",
@@ -189,54 +177,88 @@ export default class Console {
     myCodeMirror.getWrapperElement().style.transition = "1s all";
     myCodeMirror.getWrapperElement().style.height = "16vh";
     myCodeMirror.getWrapperElement().style.backgroundColor = 'rgba(0,0,0,.5)'
+    myCodeMirror.getWrapperElement().style.zIndex = '2';
 
-
-    const buttonContainer = document.createElement("div");
+    const buttonContainer           = document.createElement("div");
           buttonContainer.className = 'console-button-container'
           container.appendChild(buttonContainer);
 
-    const buttonClear     = document.createElement("button");
+    const buttonClear           = document.createElement("button");
           buttonClear.className = 'console-button';
           buttonContainer.appendChild(buttonClear);
           buttonClear.innerHTML = "Clear";
 
-    const buttonExample   = document.createElement("button");
+    const buttonExample           = document.createElement("button");
           buttonExample.className = 'console-button';
           buttonExample.id = 'console-button-example';
           buttonContainer.appendChild(buttonExample);
           buttonExample.innerHTML = "Examples("+EXAMPLES.length+")";
 
-    const buttonCompile   = document.createElement("button");
+    const buttonCompile           = document.createElement("button");
           buttonCompile.className = "console-button";
           buttonContainer.appendChild(buttonCompile);
-          buttonCompile.innerHTML = 'Compile';
+          buttonCompile.innerHTML = 'Compile (Shift+Enter)';
 
     if(_default){
+
+      const link = document.createElement("a");
+            link.className = 'console-logo';
+
+            link.href = 'https://metajs.org';
+            link.target = '_blank';
+            link.innerHTML = _DEFAULT.LOGO;
+
+      container.appendChild(link);
 
       const buttonExampleN  = document.createElement("button");
             buttonExampleN.className = 'console-button-notification';
             buttonExample.appendChild(buttonExampleN);
             buttonExampleN.innerHTML = TRY[Math.floor(Math.random()*TRY.length)];
 
+      // const i = document.createElement('img');
+      //       i.className = "console-logo-github-img";
+      //       i.src = "https://cdn.rawgit.com/gilbarbara/logos/00cf8501/logos/github-octocat.svg";
+      //
+      // const a = document.createElement('a');
+      //       a.className = "console-logo-github";
+      //       a.href =  'https://github.com/cheesyeyes/meta';
+      //       a.target = '_blank';
+      //
+      //       a.appendChild(i);
+      //
+      //   document.body.appendChild(a);
 
-      const i = document.createElement('img');
-            i.src = "https://cdn.rawgit.com/gilbarbara/logos/00cf8501/logos/github-octocat.svg";
-            i.style.width = '50px';
-            i.style.height = '50px';
-            i.style.zIndex = '1';
+      let el    = document.createElement('canvas');
+          el.className = "console-circle";
+          el.id ="paper";
 
-      const a = document.createElement('a');
-            a.href =  'https://github.com/cheesyeyes/meta';
-            a.target = '_blank';
+      document.body.appendChild(el);
 
-            a.style.position = 'fixed';
-            a.style.top   = '25px';
-            a.style.right = '25px';
-            a.style.zIndex = '1';
+      const canvas = document.getElementById('paper');
 
-            a.appendChild(i);
+      paper.setup(canvas);
+      paper.view.size.width = 30
+      paper.view.size.height = 30
 
-        document.body.appendChild(a);
+      var path = new paper.Path.Circle({
+          center: paper.view.center,
+          radius: paper.view.bounds.height/2
+      });
+
+      path.fillColor = {
+          gradient: {
+              stops: [['#ef7e82', 0], ['#666666', 0.5]]
+          },
+          origin: path.position,
+          destination: path.bounds.bottom
+      };
+
+      paper.view.draw();
+
+      canvas.addEventListener('click',(event) => {
+        container.style.display = container.style.display=='none'?'flex':'none';
+      });
+
     }
 
     function resize(){
