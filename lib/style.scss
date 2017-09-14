@@ -162,6 +162,16 @@ a{
  cursor: n-resize;
 }
 
+.console-circle{
+  width: 30px;
+  height: 30px;
+  position: fixed;
+  right: 12.5px;
+  top: 12.5px;
+  cursor: pointer;
+  z-index: 1;
+}
+
 @media (orientation: portrait){
   .console-logo{
     left: 50%;
