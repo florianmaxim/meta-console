@@ -8,6 +8,7 @@ import './style.scss';
 import './codemirror.css';
 import './codemirror.theme.monokai.css';
 
+import Tone from 'tone';
 
 import {Space}        from 'meta-client';
 
@@ -25,6 +26,7 @@ import {Sphere,
         Plane,
         Model}     from 'meta-client';
 
+
 /*
   Helpers
 */
@@ -34,6 +36,12 @@ import {r, i, e} from 'meta-client';
 window.r = r;
 window.i = i;
 window.e = e;
+
+/*
+ Tone.js
+*/
+
+window.Tone = Tone;
 
 /*
   Space
@@ -95,7 +103,7 @@ const TRY = [
   "Have a try!",
   "Play it safe!",
   "Have a ball!",
-  "It's up tp you",
+  "It's up to you!",
   "Taste!",
 ]
 
@@ -128,6 +136,8 @@ const EXAMPLES = [
   "C(10).m('d',7.5).p('f');\nC(2).m('l',5).p();\nC(2).m('r',2).p()",
 
   "new Ground()\nnew Grid()\nnew Cube()",
+
+  "new Space({color:0x548adf});\nnew Ground({color:0x9aa9fe});\nvar synth = new Tone.Synth().toMaster();\nnew Cube({w:5,h:1,l:1})\n.m('l',5)\n.r('r',.5).r('f',.5)\n.c(0xffffff)\n.l((_,t)=> _.r('l', .01))\n.o('enter',(_)=>{_.c();\nsynth.triggerAttackRelease('C4', '8n');\n})\nnew Cube({w:5,h:1,l:1})\n.m('r',0)\n.r('r',.5).r('f',.5)\n.c(0xffffff)\n.l((_,t)=> _.r('u', .01))\n.o('release',(_)=>{_.c()\nsynth.triggerAttackRelease('C6', '8n');\n})\nnew Cube({w:5,h:1,l:1})\n.m('r',5)\n.r('r',.5).r('f',.5)\n.c(0xffffff)\n.l((_,t)=> _.r('b', .01))\n.o('touch',(_)=>{_.c()\nsynth.triggerAttackRelease('C2', '8n');\n})"
 
 ]
 
@@ -247,7 +257,7 @@ export default class Console {
 
       path.fillColor = {
           gradient: {
-              stops: [['#ef7e82', 0], ['#666666', 0.5]]
+              stops: [['#'+Math.floor(Math.random()*16777215).toString(16), 0], ['#'+Math.floor(Math.random()*16777215).toString(16), 0.5]]
           },
           origin: path.position,
           destination: path.bounds.bottom
