@@ -173,6 +173,29 @@ a{
   z-index: 1;
 }
 
+.console-line{
+  z-index: 1;
+  font-size: 25vh;
+  color: white;
+  font-family: Open Sans;
+  position: fixed;
+  left:50%;
+  top:50%;
+  transform: translate3d(-50%,-50%,0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.console-line > a {
+  color: white;
+  text-decoration: none;
+}
+.console-line > a:hover {
+  color: white;
+  text-decoration: underline;
+}
+
 @media (orientation: portrait){
   .console-logo{
     left: 50%;

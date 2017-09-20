@@ -196,7 +196,7 @@ export default class Console {
     const buttonClear           = document.createElement("button");
           buttonClear.className = 'console-button';
           buttonContainer.appendChild(buttonClear);
-          buttonClear.innerHTML = "Clear";
+          buttonClear.innerHTML = "Clear (Shift+ESC)";
 
     const buttonExample           = document.createElement("button");
           buttonExample.className = 'console-button';
@@ -237,6 +237,29 @@ export default class Console {
       //       a.appendChild(i);
       //
       //   document.body.appendChild(a);
+
+      const line    = document.createElement('div');
+            line.className = "console-line";
+      container.appendChild(line);
+
+            line.innerHTML = "{";
+
+      const a1 = document.createElement('a');
+            a1.href = "http://meta.camp";
+            a1.target = '_blank';
+            a1.innerHTML = "docs";
+      line.appendChild(a1);
+
+            line.innerHTML += "/";
+
+      const a2 = document.createElement('a');
+            a2.href = "http://meta.codes";
+            a2.target = '_blank';
+            a2.innerHTML = "codes";
+      line.appendChild(a2);
+
+            line.innerHTML += "}";
+
 
       let el    = document.createElement('canvas');
           el.className = "console-circle";

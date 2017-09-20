@@ -1,6 +1,6 @@
 {
   "name": "meta-console",
-  "version": "0.0.0-a96",
+  "version": "0.0.0-b06",
   "description": "MetaJS Console",
   "main": "lib/index.js",
   "directories": {
