@@ -1,6 +1,6 @@
 {
   "name": "meta-console",
-  "version": "0.0.0-b06",
+  "version": "0.0.0-b08",
   "description": "MetaJS Console",
   "main": "lib/index.js",
   "directories": {
@@ -16,12 +16,12 @@
   "dependencies": {
     "codemirror": "^5.29.0",
     "meta-client": "0.0.0-b30",
-    "paper": "^0.11.4",
     "tone": "^0.11.11"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-loader": "^7.1.2",
-    "babel-preset-env": "^1.6.0"
+    "babel-preset-env": "^1.6.0",
+    "style-loader": "^0.18.2"
   }
 }

@@ -1,8 +1,6 @@
-import paper from 'paper';
-
 import CodeMirror from 'codemirror';
 import 'codemirror/lib/codemirror.css';
-require('codemirror/mode/javascript/javascript');
+import 'codemirror/mode/javascript/javascript';
 
 import './style.scss';
 import './codemirror.css';
@@ -151,151 +149,110 @@ let keys = {
     ctrl: false
 };
 
+let scope;
+
 export default class Console {
 
   constructor(props){
 
-    const _default = props!==undefined&&typeof(props)==='boolean'?props:true;
+    scope = this;
 
     let example = -1;
     let code    = EXAMPLES[EXAMPLES.length-1];
 
-    const container = document.createElement("div");
+    this.started = false;
+
+    const container       = document.createElement("div");
           container.className = 'console-container';
+          document.body.appendChild(container);
 
-    document.body.appendChild(container);
-
-    const close = document.createElement("div");
+    const close           = document.createElement("div");
           close.className = 'console-resize';
+          container.appendChild(close);
 
-    container.appendChild(close);
-
-    const input = document.createElement("textarea");
+    const input           = document.createElement("textarea");
           input.id = 'console';
           input.value = code;
+          container.appendChild(input);
 
-    container.appendChild(input);
+    const codemirror      = CodeMirror.fromTextArea(input, {
+        mode:  "javascript",
+        value: code,
+        theme: 'monokai',
+        lineWrapping: true,
+        lineNumbers: true
+      });
+          codemirror.getWrapperElement().style.transition = "1s all";
+          codemirror.getWrapperElement().style.height = "16vh";
+          codemirror.getWrapperElement().style.backgroundColor = 'rgba(0,0,0,.5)'
+          codemirror.getWrapperElement().style.zIndex = '2';
 
-    var myCodeMirror = CodeMirror.fromTextArea(input, {
-      mode:  "javascript",
-      value: code,
-      theme: 'monokai',
-      lineWrapping: true,
-      lineNumbers: true
-    });
-
-    myCodeMirror.getWrapperElement().style.transition = "1s all";
-    myCodeMirror.getWrapperElement().style.height = "16vh";
-    myCodeMirror.getWrapperElement().style.backgroundColor = 'rgba(0,0,0,.5)'
-    myCodeMirror.getWrapperElement().style.zIndex = '2';
-
-    const buttonContainer           = document.createElement("div");
+    const buttonContainer = document.createElement("div");
           buttonContainer.className = 'console-button-container'
           container.appendChild(buttonContainer);
 
-    const buttonClear           = document.createElement("button");
+    const buttonClear     = document.createElement("button");
           buttonClear.className = 'console-button';
-          buttonContainer.appendChild(buttonClear);
           buttonClear.innerHTML = "Clear (Shift+ESC)";
+          buttonContainer.appendChild(buttonClear);
 
-    const buttonExample           = document.createElement("button");
+    const buttonExample   = document.createElement("button");
           buttonExample.className = 'console-button';
           buttonExample.id = 'console-button-example';
-          buttonContainer.appendChild(buttonExample);
           buttonExample.innerHTML = "Examples("+EXAMPLES.length+")";
+          buttonContainer.appendChild(buttonExample);
 
-    const buttonCompile           = document.createElement("button");
+    const buttonExampleNotifications  = document.createElement("button");
+          buttonExampleNotifications.className = 'console-button-notification';
+          buttonExampleNotifications.innerHTML = TRY[Math.floor(Math.random()*TRY.length)];
+          buttonExample.appendChild(buttonExampleNotifications);
+
+    const buttonCompile   = document.createElement("button");
           buttonCompile.className = "console-button";
-          buttonContainer.appendChild(buttonCompile);
           buttonCompile.innerHTML = 'Compile (Shift+Enter)';
+          buttonContainer.appendChild(buttonCompile);
 
-    if(_default){
+    const link = document.createElement("a");
+          link.className = 'console-logo';
+          link.href = 'https://metajs.org';
+          link.target = '_blank';
+          link.innerHTML = _DEFAULT.LOGO;
+          container.appendChild(link);
 
-      const link = document.createElement("a");
-            link.className = 'console-logo';
+    const line    = document.createElement('div');
+          line.className = "console-line";
+           container.appendChild(line);
 
-            link.href = 'https://metajs.org';
-            link.target = '_blank';
-            link.innerHTML = _DEFAULT.LOGO;
+    line.innerHTML = "{";
 
-      container.appendChild(link);
+    const a1 = document.createElement('a');
+          a1.href = "http://meta.camp";
+          a1.target = '_blank';
+          a1.innerHTML = "docs";
+          line.appendChild(a1);
 
-      const buttonExampleN  = document.createElement("button");
-            buttonExampleN.className = 'console-button-notification';
-            buttonExample.appendChild(buttonExampleN);
-            buttonExampleN.innerHTML = TRY[Math.floor(Math.random()*TRY.length)];
+    line.innerHTML += "/";
 
-      // const i = document.createElement('img');
-      //       i.className = "console-logo-github-img";
-      //       i.src = "https://cdn.rawgit.com/gilbarbara/logos/00cf8501/logos/github-octocat.svg";
-      //
-      // const a = document.createElement('a');
-      //       a.className = "console-logo-github";
-      //       a.href =  'https://github.com/cheesyeyes/meta';
-      //       a.target = '_blank';
-      //
-      //       a.appendChild(i);
-      //
-      //   document.body.appendChild(a);
+    const a2 = document.createElement('a');
+          a2.href = "http://meta.codes";
+          a2.target = '_blank';
+          a2.innerHTML = "codes";
+          line.appendChild(a2);
 
-      const line    = document.createElement('div');
-            line.className = "console-line";
-      container.appendChild(line);
+    line.innerHTML += "}";
 
-            line.innerHTML = "{";
+    const circle    = document.createElement('div');
+          circle.className = "console-circle";
+          circle.id ="paper";
 
-      const a1 = document.createElement('a');
-            a1.href = "http://meta.camp";
-            a1.target = '_blank';
-            a1.innerHTML = "docs";
-      line.appendChild(a1);
+    document.body.appendChild(circle);
 
-            line.innerHTML += "/";
-
-      const a2 = document.createElement('a');
-            a2.href = "http://meta.codes";
-            a2.target = '_blank';
-            a2.innerHTML = "codes";
-      line.appendChild(a2);
-
-            line.innerHTML += "}";
-
-
-      let el    = document.createElement('canvas');
-          el.className = "console-circle";
-          el.id ="paper";
-
-      document.body.appendChild(el);
-
-      const canvas = document.getElementById('paper');
-
-      paper.setup(canvas);
-      paper.view.size.width = 30
-      paper.view.size.height = 30
-
-      var path = new paper.Path.Circle({
-          center: paper.view.center,
-          radius: paper.view.bounds.height/2
-      });
-
-      path.fillColor = {
-          gradient: {
-              stops: [['#'+Math.floor(Math.random()*16777215).toString(16), 0], ['#'+Math.floor(Math.random()*16777215).toString(16), 0.5]]
-          },
-          origin: path.position,
-          destination: path.bounds.bottom
-      };
-
-      paper.view.draw();
-
-      canvas.addEventListener('click',(event) => {
-        container.style.display = container.style.display=='none'?'flex':'none';
-      });
-
-    }
+    circle.addEventListener('click',(event) => {
+      container.style.display = container.style.display=='none'?'flex':'none';
+    });
 
     function resize(){
-      let currentHeight = myCodeMirror.getWrapperElement().style.height;
+      let currentHeight = codemirror.getWrapperElement().style.height;
       let nextHeight;
 
       switch(currentHeight){
@@ -319,13 +276,13 @@ export default class Console {
         break;
       }
 
-      myCodeMirror.getWrapperElement().style.height = nextHeight;
+      codemirror.getWrapperElement().style.height = nextHeight;
     }
 
     function clear(){
 
-      myCodeMirror.setValue('');
-      myCodeMirror.focus();
+      codemirror.setValue('');
+      codemirror.focus();
       code = '';
 
     }
@@ -334,11 +291,24 @@ export default class Console {
 
       Space.clear();
 
-      const code = myCodeMirror.getValue();
+      const code = codemirror.getValue();
 
       eval(code);
 
     }
+
+    /*
+      Events
+     */
+
+    addEventListener('click', () => {
+      console.log('click')
+      if(scope.started===false) {
+        line.style.display = 'none';
+        scope.started = true;
+      }
+
+    })
 
     addEventListener('load', () => compile())
 
@@ -360,8 +330,8 @@ export default class Console {
 
       code = EXAMPLES[example];
 
-      myCodeMirror.setValue(code);
-      myCodeMirror.focus();
+      codemirror.setValue(code);
+      codemirror.focus();
 
       buttonExample.innerHTML = `Example (${example+1})/${EXAMPLES.length})`;
 
@@ -374,8 +344,8 @@ export default class Console {
 
       Space.clear();
 
-      myCodeMirror.setValue('');
-      myCodeMirror.focus();
+      codemirror.setValue('');
+      codemirror.focus();
       code = '';
 
     })
@@ -391,10 +361,6 @@ export default class Console {
     addEventListener('load', (event) => {
 
       event.preventDefault();
-
-      input.focus();
-
-      myCodeMirror.focus();
 
     });
 
@@ -420,9 +386,9 @@ export default class Console {
         event.preventDefault();
         console.log('[Console] - SHIFT and ESC');
         Space.clear();
-        myCodeMirror.setValue('');
+        codemirror.setValue('');
         code = '';
-        myCodeMirror.focus();
+        codemirror.focus();
       }
     })
 
