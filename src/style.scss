@@ -1,5 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Mr+Dafoe);
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
+@import url(https://fonts.googleapis.com/css?family=Roboto);
 
 $primary: rgba(139,147,162,1);
 $secondary: rgba(27,32,35,1);
@@ -170,7 +171,7 @@ a{
   right: 25px;
   top: 25px;
   cursor: pointer;
-  opacity: .125;
+  opacity: .5;
   z-index: 1;
   border-radius: 50%;
   background: linear-gradient(135deg, red, blue);

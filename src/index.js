@@ -85,8 +85,16 @@ window.Model    = Model;
 // window.P = (w, l)      => {return new P(w, l)};
 
 const _DEFAULT = {
-  CODE: "C()",
-  LOGO: "Meta"
+
+  LOGO: "Meta",
+
+  COLOR: {
+
+    PRIMARY: `rgba(${Math.round(Math.random()*255)}, ${Math.round(Math.random()*255)}, ${Math.round(Math.random()*255)}, 0.5)`,
+    SECONDARY: `rgba(${Math.round(Math.random()*255)}, ${Math.round(Math.random()*255)}, ${Math.round(Math.random()*255)}, 0.5)`
+
+  }
+
 }
 
 let keys = {
@@ -95,6 +103,7 @@ let keys = {
 };
 
 let scope;
+
 
 export default class Console {
 
@@ -127,9 +136,9 @@ export default class Console {
         lineWrapping: true,
         lineNumbers: true
       });
-          codemirror.getWrapperElement().style.transition = "1s all";
+          codemirror.getWrapperElement().style.transition = ".5s all";
           codemirror.getWrapperElement().style.height = "16vh";
-          codemirror.getWrapperElement().style.backgroundColor = 'rgba(0,0,0,.5)'
+          codemirror.getWrapperElement().style.background = `linear-gradient(135deg, ${_DEFAULT.COLOR.PRIMARY}, ${_DEFAULT.COLOR.SECONDARY})`;
           codemirror.getWrapperElement().style.zIndex = '2';
 
     const buttonContainer = document.createElement("div");
@@ -188,6 +197,7 @@ export default class Console {
 
     const circle    = document.createElement('div');
           circle.className = "console-circle";
+          circle.style.background = `linear-gradient(135deg, ${_DEFAULT.COLOR.PRIMARY}, ${_DEFAULT.COLOR.SECONDARY})`;
           circle.id ="paper";
 
     document.body.appendChild(circle);
