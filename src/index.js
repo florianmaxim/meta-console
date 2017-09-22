@@ -418,9 +418,7 @@ export default class Console {
     }
 
     codemirror.getWrapperElement().style.height = nextHeight;
-
-    console.log('[Console] - Resize')
-
+    console.log('[Console] - Resize');
   }
 
 }
