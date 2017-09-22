@@ -1,3 +1,5 @@
+import CONTENT from './CONTENT.js';
+
 import CodeMirror from 'codemirror';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/mode/javascript/javascript';
@@ -17,13 +19,11 @@ import {Graphics,
 
 import {Ground, Grid} from 'meta-client';
 
-
 import {Sphere,
         Cube,
         Cylinder,
         Plane,
         Model}     from 'meta-client';
-
 
 /*
   Helpers
@@ -84,61 +84,6 @@ window.Model    = Model;
 // window.Y = (r1, r2, h) => {return new C(r1, r2, h)};
 // window.P = (w, l)      => {return new P(w, l)};
 
-const SAY = [
-  "Will you try a spoonful of this and tell me what you think of it?",
-  "Voice your opinion.",
-  "Have your say."
-]
-
-const TRY = [
-  "Play around!",
-  "Try it!",
-  "Give it the old college try!",
-  "Road test!",
-  "Shake down!",
-  "Push your luck!",
-  "Go for it!",
-  "Have a try!",
-  "Play it safe!",
-  "Have a ball!",
-  "It's up to you!",
-  "Taste!",
-]
-
-const EXAMPLES = [
-
-  "C()",
-  "C(2.5)",
-  "new Cube(2.5)",
-
-  "Y()",
-  "Y(2.5, 2.5)",
-  "new Cylinder(2.5, 2.5, 10)",
-
-  "for(let i=-2;i<=2;i++){\n\tfor(let j=-2;j<=2;j++){\n\t\tfor(let k=-2;k<=2;k++){\n\t\t\tC(1).set(i,j,k)\n}}}",
-  "for(let i=-2;i<=2;i++){\n\tfor(let j=-2;j<=2;j++){\n\t\tfor(let k=-2;k<=2;k++){\n\t\t\tC(1).set(i*2,j*2,k*2)\n}}}",
-  "for(let i=-2;i<=2;i++){\n\tfor(let j=-2;j<=2;j++){\n\t\tfor(let k=-2;k<=2;k++){\n\t\t\tY(0,1).set(i*2,j*2,k*2)\n}}}",
-
-  "i(2000,()=>{C()})",
-  "e(2000,()=>{C().p()})",
-  "e(2000,()=>{C(1).p()})\nC(10,1,10).m('d', 5).p('f')",
-
-  "let c = C()\nc.ev(1000, ()=>{\nc.c();});",
-  "let c = C()\nlet s = 0;\nc.ev(100, ()=>{\nc.m('r',s);\ns++;\n});",
-
-  "C().p()",
-  "Y().p()",
-
-  "C(10).m('d',7.5).p('f');\nC(2).p();",
-  "C(10).m('d',7.5).p('f');\nC(2).m('l',5).p();",
-  "C(10).m('d',7.5).p('f');\nC(2).m('l',5).p();\nC(2).m('r',2).p()",
-
-  "new Ground()\nnew Grid()\nnew Cube()",
-
-  "new Space({color:0x548adf});\nnew Ground({color:0x9aa9fe});\nvar synth = new Tone.Synth().toMaster();\nnew Cube({w:5,h:1,l:1})\n.m('l',5)\n.r('r',.5).r('f',.5)\n.c(0xffffff)\n.l((_,t)=> _.r('l', .01))\n.o('enter',(_)=>{_.c();\nsynth.triggerAttackRelease('C4', '8n');\n})\nnew Cube({w:5,h:1,l:1})\n.m('r',0)\n.r('r',.5).r('f',.5)\n.c(0xffffff)\n.l((_,t)=> _.r('u', .01))\n.o('release',(_)=>{_.c()\nsynth.triggerAttackRelease('C6', '8n');\n})\nnew Cube({w:5,h:1,l:1})\n.m('r',5)\n.r('r',.5).r('f',.5)\n.c(0xffffff)\n.l((_,t)=> _.r('b', .01))\n.o('touch',(_)=>{_.c()\nsynth.triggerAttackRelease('C2', '8n');\n})"
-
-]
-
 const _DEFAULT = {
   CODE: "C()",
   LOGO: "Meta"
@@ -158,7 +103,7 @@ export default class Console {
     scope = this;
 
     let example = -1;
-    let code    = EXAMPLES[EXAMPLES.length-1];
+    let code    = CONTENT.EXAMPLES[CONTENT.EXAMPLES.length-1];
 
     this.started = false;
 
@@ -199,12 +144,12 @@ export default class Console {
     const buttonExample   = document.createElement("button");
           buttonExample.className = 'console-button';
           buttonExample.id = 'console-button-example';
-          buttonExample.innerHTML = "Examples("+EXAMPLES.length+")";
+          buttonExample.innerHTML = "Examples("+CONTENT.EXAMPLES.length+")";
           buttonContainer.appendChild(buttonExample);
 
     const buttonExampleNotifications  = document.createElement("button");
           buttonExampleNotifications.className = 'console-button-notification';
-          buttonExampleNotifications.innerHTML = TRY[Math.floor(Math.random()*TRY.length)];
+          buttonExampleNotifications.innerHTML = CONTENT.TRY[Math.floor(Math.random()*CONTENT.TRY.length)];
           buttonExample.appendChild(buttonExampleNotifications);
 
     const buttonCompile   = document.createElement("button");
@@ -326,14 +271,14 @@ export default class Console {
 
       clear();
 
-      example = example<EXAMPLES.length-1?example+1:0;
+      example = example<CONTENT.EXAMPLES.length-1?example+1:0;
 
-      code = EXAMPLES[example];
+      code = CONTENT.EXAMPLES[example];
 
       codemirror.setValue(code);
       codemirror.focus();
 
-      buttonExample.innerHTML = `Example (${example+1})/${EXAMPLES.length})`;
+      buttonExample.innerHTML = `Example (${example+1})/${CONTENT.EXAMPLES.length})`;
 
     });
 
