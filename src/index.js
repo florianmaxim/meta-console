@@ -115,6 +115,7 @@ export default class Console {
     let code    = CONTENT.EXAMPLES[CONTENT.EXAMPLES.length-1];
 
     this.started = false;
+    this.mode = 0;
 
     const container       = document.createElement("div");
           container.className = 'console-container';
@@ -203,8 +204,46 @@ export default class Console {
     document.body.appendChild(circle);
 
     circle.addEventListener('click',(event) => {
-      container.style.display = container.style.display=='none'?'flex':'none';
+
+      setMode();
+
     });
+
+    function setMode(mode){
+
+      if(mode!==undefined){
+        scope.mode = mode
+      }else{
+        scope.mode = scope.mode<2?scope.mode+1:0;
+      }
+
+      console.log('[Console] - Mode: '+scope.mode);
+
+      switch(scope.mode){
+        case 0:
+
+          container.style.display = 'flex';
+          line.style.display = 'flex';
+          buttonContainer.style.display = 'none';
+          codemirror.getWrapperElement().style.display = 'none';
+
+        break;
+        case 1:
+
+          container.style.display = 'flex';
+          line.style.display = 'none';
+          buttonContainer.style.display = 'flex';
+          codemirror.getWrapperElement().style.display = 'flex';
+
+        break;
+        case 2:
+
+          container.style.display = 'none';
+          codemirror.getWrapperElement().style.display = 'none';
+
+        break;
+      }
+    }
 
     function resize(){
       let currentHeight = codemirror.getWrapperElement().style.height;
@@ -257,15 +296,12 @@ export default class Console {
      */
 
     addEventListener('click', () => {
-      console.log('click')
       if(scope.started===false) {
         line.style.display = 'none';
         scope.started = true;
       }
 
     })
-
-    addEventListener('load', () => compile())
 
     buttonCompile.addEventListener('click', (event) => {
 
@@ -286,14 +322,15 @@ export default class Console {
       code = CONTENT.EXAMPLES[example];
 
       codemirror.setValue(code);
-      codemirror.focus();
 
       buttonExample.innerHTML = `Example (${example+1})/${CONTENT.EXAMPLES.length})`;
 
     });
 
     buttonClear.addEventListener('click', (event) => {
+
       event.preventDefault();
+
       buttonClear.style.color = 'rgba(137,145,162,1)';
       buttonClear.style.backgroundColor = 'rgba(42,46,56,1)'
 
@@ -305,17 +342,19 @@ export default class Console {
 
     })
 
-
     input.addEventListener('click', (event) => {
       input.value = input.value===defaultText?"":input.value;
     })
 
     close.addEventListener('click', resize)
 
-
     addEventListener('load', (event) => {
 
       event.preventDefault();
+
+      setMode(0);
+
+      compile();
 
     });
 
