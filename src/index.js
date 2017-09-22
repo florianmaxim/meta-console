@@ -1,3 +1,9 @@
+/**
+ * @TODO call codemirror's .refresh()
+ * if anything renders werid...
+ *
+ */
+
 import CONTENT from './CONTENT.js';
 
 import CodeMirror from 'codemirror';
@@ -104,6 +110,7 @@ let keys = {
 
 let scope;
 
+let codemirror, resize;
 
 export default class Console {
 
@@ -121,26 +128,25 @@ export default class Console {
           container.className = 'console-container';
           document.body.appendChild(container);
 
-    const close           = document.createElement("div");
-          close.className = 'console-resize';
-          container.appendChild(close);
+          resize           = document.createElement("div");
+          resize.className = 'console-resize';
+          container.appendChild(resize);
 
     const input           = document.createElement("textarea");
-          input.id = 'console';
           input.value = code;
           container.appendChild(input);
 
-    const codemirror      = CodeMirror.fromTextArea(input, {
+    codemirror      = CodeMirror.fromTextArea(input, {
         mode:  "javascript",
         value: code,
         theme: 'monokai',
         lineWrapping: true,
-        lineNumbers: true
+        lineNumbers: true,
       });
-          codemirror.getWrapperElement().style.transition = ".5s all";
-          codemirror.getWrapperElement().style.height = "16vh";
           codemirror.getWrapperElement().style.background = `linear-gradient(135deg, ${_DEFAULT.COLOR.PRIMARY}, ${_DEFAULT.COLOR.SECONDARY})`;
-          codemirror.getWrapperElement().style.zIndex = '2';
+          codemirror.getWrapperElement().style.width = '100vw';
+          codemirror.getWrapperElement().style.height = '16vh';
+          codemirror.getWrapperElement().style.transition = '.5s all';
 
     const buttonContainer = document.createElement("div");
           buttonContainer.className = 'console-button-container'
@@ -157,22 +163,22 @@ export default class Console {
           buttonExample.innerHTML = "Examples("+CONTENT.EXAMPLES.length+")";
           buttonContainer.appendChild(buttonExample);
 
-    const buttonExampleNotifications  = document.createElement("button");
-          buttonExampleNotifications.className = 'console-button-notification';
-          buttonExampleNotifications.innerHTML = CONTENT.TRY[Math.floor(Math.random()*CONTENT.TRY.length)];
-          buttonExample.appendChild(buttonExampleNotifications);
+    // const buttonExampleNotifications  = document.createElement("button");
+    //       buttonExampleNotifications.className = 'console-button-notification';
+    //       buttonExampleNotifications.innerHTML = CONTENT.TRY[Math.floor(Math.random()*CONTENT.TRY.length)];
+    //       buttonExample.appendChild(buttonExampleNotifications);
 
     const buttonCompile   = document.createElement("button");
           buttonCompile.className = "console-button";
           buttonCompile.innerHTML = 'Compile (Shift+Enter)';
           buttonContainer.appendChild(buttonCompile);
 
-    const link = document.createElement("a");
-          link.className = 'console-logo';
-          link.href = 'https://metajs.org';
-          link.target = '_blank';
-          link.innerHTML = _DEFAULT.LOGO;
-          container.appendChild(link);
+    const logo = document.createElement("a");
+          logo.className = 'console-logo';
+          logo.href = 'https://metajs.org';
+          logo.target = '_blank';
+          logo.innerHTML = _DEFAULT.LOGO;
+          container.appendChild(logo);
 
     const line    = document.createElement('div');
           line.className = "console-line";
@@ -233,7 +239,7 @@ export default class Console {
           container.style.display = 'flex';
           line.style.display = 'none';
           buttonContainer.style.display = 'flex';
-          codemirror.getWrapperElement().style.display = 'flex';
+          codemirror.getWrapperElement().style.display = 'block';
 
         break;
         case 2:
@@ -243,34 +249,6 @@ export default class Console {
 
         break;
       }
-    }
-
-    function resize(){
-      let currentHeight = codemirror.getWrapperElement().style.height;
-      let nextHeight;
-
-      switch(currentHeight){
-        case '0vh': case '0':
-          nextHeight = '16vh';
-          if((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i)))
-            nextHeight = 'calc(16vh - 182px)';
-          close.style.cursor = 'n-resize';
-        break;
-        case '16vh':
-          nextHeight = '92.5vh';
-          if((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i)))
-            nextHeight = 'calc(92.5vh - 182px)';
-          close.style.transform = close.style.transform=='rotateZ(180deg)'?'rotateZ(0deg)':'rotateZ(180deg)';
-          close.style.cursor = 's-resize';
-        break;
-        case '92.5vh':
-          nextHeight = '0vh';
-          close.style.transform = close.style.transform=='rotateZ(180deg)'?'rotateZ(0deg)':'rotateZ(180deg)';
-          close.style.cursor = 'n-resize';
-        break;
-      }
-
-      codemirror.getWrapperElement().style.height = nextHeight;
     }
 
     function clear(){
@@ -346,13 +324,21 @@ export default class Console {
       input.value = input.value===defaultText?"":input.value;
     })
 
-    close.addEventListener('click', resize)
+    resize.addEventListener('click', () => {
+
+      event.preventDefault();
+
+      scope.resize();
+
+      codemirror.refresh();
+
+    })
 
     addEventListener('load', (event) => {
 
       event.preventDefault();
 
-      setMode(0);
+      codemirror.refresh()
 
       compile();
 
@@ -402,6 +388,38 @@ export default class Console {
       }
 
     })
+
+  }
+
+  resize(){
+
+    let currentHeight = codemirror.getWrapperElement().style.height;
+    let nextHeight;
+
+    switch(currentHeight){
+      case '0vh': case '0':
+        nextHeight = '16vh';
+        if((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i)))
+          nextHeight = 'calc(16vh - 182px)';
+        resize.style.cursor = 'n-resize';
+      break;
+      case '16vh':
+        nextHeight = '92.5vh';
+        if((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i)))
+          nextHeight = 'calc(92.5vh - 182px)';
+        resize.style.transform = resize.style.transform=='rotateZ(180deg)'?'rotateZ(0deg)':'rotateZ(180deg)';
+        resize.style.cursor = 's-resize';
+      break;
+      case '92.5vh':
+        nextHeight = '0vh';
+        resize.style.transform = resize.style.transform=='rotateZ(180deg)'?'rotateZ(0deg)':'rotateZ(180deg)';
+        resize.style.cursor = 'n-resize';
+      break;
+    }
+
+    codemirror.getWrapperElement().style.height = nextHeight;
+
+    console.log('[Console] - Resize')
 
   }
 

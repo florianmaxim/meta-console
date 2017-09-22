@@ -44,8 +44,7 @@ export default
 
     "new Ground()\nnew Grid()\nnew Cube()",
 
-    "new Space({color:0x548adf});\nnew Ground({color:0x9aa9fe});\nvar synth = new Tone.Synth().toMaster();\nnew Cube({w:5,h:1,l:1})\n.m('l',5)\n.r('r',.5).r('f',.5)\n.c(0xffffff)\n.l((_,t)=> _.r('l', .01))\n.o('enter',(_)=>{_.c();\nsynth.triggerAttackRelease('C4', '8n');\n})\nnew Cube({w:5,h:1,l:1})\n.m('r',0)\n.r('r',.5).r('f',.5)\n.c(0xffffff)\n.l((_,t)=> _.r('u', .01))\n.o('release',(_)=>{_.c()\nsynth.triggerAttackRelease('C6', '8n');\n})\nnew Cube({w:5,h:1,l:1})\n.m('r',5)\n.r('r',.5).r('f',.5)\n.c(0xffffff)\n.l((_,t)=> _.r('b', .01))\n.o('touch',(_)=>{_.c()\nsynth.triggerAttackRelease('C2', '8n');\n})",
-
-    "new Cube()"
+    "new Space({color:0x548adf});\nnew Ground({color:0x9aa9fe});\nvar synth = new Tone.Synth().toMaster();\nnew Cube({w:5,h:1,l:1})\n.m('l',5)\n.r('r',.5).r('f',.5)\n.c(0xffffff)\n.l((_,t)=> _.r('l', .01))\n.o('enter',(_)=>{_.c();\nsynth.triggerAttackRelease('C4', '8n');\n})\nnew Cube({w:5,h:1,l:1})\n.m('r',0)\n.r('r',.5).r('f',.5)\n.c(0xffffff)\n.l((_,t)=> _.r('u', .01))\n.o('release',(_)=>{_.c()\nsynth.triggerAttackRelease('C6', '8n');\n})\nnew Cube({w:5,h:1,l:1})\n.m('r',5)\n.r('r',.5).r('f',.5)\n.c(0xffffff)\n.l((_,t)=> _.r('b', .01))\n.o('touch',(_)=>{_.c()\nsynth.triggerAttackRelease('C2', '8n');\n})"
+    
   ]
 }

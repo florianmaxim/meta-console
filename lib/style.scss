@@ -21,24 +21,14 @@ a{
   left:0;
   bottom:0;
 
-  width:100vw;
-
   display:flex;
   flex-direction:column;
 
   opacity:.85;
 }
 
-.console-overlay {
-  position: absolute;
-  width:100vw;
-  height:100%;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  background-color: black;
-  opacity: 0.85;
+.console-console{
+
 }
 
 .console-logo{
@@ -51,46 +41,17 @@ a{
   font-size: 7.5vh;
   color: #fcfcfc;
 
-  transform: translate3d(0,0,0);
-
   transition: .5s all;
-}
-
-.console-input{
-  transition: 1s all;
-  width: 100vw;
-  border: 1px solid #eee;
-  filter:blur(15px);
-}
-
-.console-console{
-  transition: 1s all;
-  height: 16vh;
-  background-color: rgba(0,0,0,.5);
-  z-index: 2;
-}
-
-/*
-  Logo Github
-*/
-
-.console-logo-github{
-  position: fixed;
-  top: 25px;
-  right: 25px;
-  z-index: 1;
-}
-
-.console-logo-github-img{
-  width: 50px;
-  height: 50px;
-  z-index: 1;
 }
 
 /*
  Buttons
 */
+
 .console-button-container{
+
+  width: 100vw;
+
   margin: 0;
   padding: 0;
 
@@ -151,7 +112,7 @@ a{
 }
 
 .console-resize{
- z-index: 50;
+ z-index: 9999;
  position: absolute;
  transition: 1s all;
  margin: 1.5vh;
